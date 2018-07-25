@@ -23,12 +23,12 @@ export class DashboardComponent implements OnInit {
 
         let index;
         let acc = 0;
-        while(acc < 4) {
-          index = Math.ceil(Math.random() * heroes.length -1);
-          console.log(index);
-          if(!heroesIndex.find((value, i) => i == index)) {
+        while (acc < 4) {
+          index = Math.abs(Math.ceil(Math.random() * heroes.length -1));
+          if (!heroesIndex.find(value => value === index)) {
             heroesIndex.push(index);
             this.heroes.push(heroes[index]);
+            acc++;
           }
         }
       });
