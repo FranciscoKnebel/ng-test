@@ -1,16 +1,29 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Hero } from '../hero';
 
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { trigger, state, style, transition, animate, keyframes, query, stagger } from '@angular/animations';
 
+import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
 import { isNumber } from 'util';
 
 @Component({
   selector: 'app-hero-detail',
   templateUrl: './hero-detail.component.html',
-  styleUrls: ['./hero-detail.component.css']
+  styleUrls: ['./hero-detail.component.css'],
+  animations: [
+    trigger('flyInOut', [
+      state('in', style({ transform: 'translateX(0)' })),
+      transition('void => *', [
+        style({ opacity: 0, transform: 'translateY(-25%)' }),
+        animate(500)
+      ]),
+      transition('* => void', [
+        animate(300, style({ opacity: 1, transform: 'translateY(100%)' }))
+      ])
+    ])
+  ]
 })
 export class HeroDetailComponent implements OnInit {
   @Input() hero: Hero;
