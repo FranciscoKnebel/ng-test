@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { HeroService } from '../hero.service';
+import { isNumber } from 'util';
 
 @Component({
   selector: 'app-hero-detail',
@@ -15,13 +16,20 @@ export class HeroDetailComponent implements OnInit {
   @Input() hero: Hero;
 
   getHero(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
+    const id = parseInt(this.route.snapshot.paramMap.get('id'), 10);
+    if (Number.isNaN(id)) { return; }
+
     this.heroService.getHero(id)
       .subscribe(hero => this.hero = hero);
   }
 
   goBack(): void {
     this.location.back();
+  }
+
+  save(): void {
+    this.heroService.updateHero(this.hero)
+      .subscribe(() => this.goBack());
   }
 
   constructor(
